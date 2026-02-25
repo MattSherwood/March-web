@@ -28,9 +28,17 @@
             flex-direction: column; 
             align-items: center; 
             justify-content: center;
-            /* THE UPDATE: Sets your social-preview as the actual page background */
-            background: url('images/social-preview.png') no-repeat center center fixed;
+            /* Default to desktop background */
+            background: url('images/March_to_500_wallpaper_desktop.png') no-repeat center center fixed;
             background-size: cover;
+        }
+        
+        /* Mobile portrait orientation */
+        @media (max-width: 768px) and (orientation: portrait) {
+            body {
+                background: url('images/March_to_500_wallpaper_phone.png') no-repeat center center fixed;
+                background-size: cover;
+            }
         }
         
         /* We add a "Card" style so the text is readable over the background image */
