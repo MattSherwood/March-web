@@ -14,30 +14,48 @@
 
     <style>
         :root {
-            /* Colors from Beatrix Potter Mood Board */
             --sage-green: #7d9689; 
             --dusty-rose: #d6857a;
-            --moss-green: #8b964d;
             --bg-cream: #fcfaf2;
             --text-dark: #4a4a4a;
         }
         body { 
             font-family: 'Georgia', serif; 
             margin: 0; 
-            padding: 40px 20px; 
-            background: linear-gradient(rgba(252, 250, 242, 0.95), rgba(252, 250, 242, 0.95)), url('images/social-preview.png') center/cover fixed;
-            color: var(--text-dark); 
+            padding: 0;
+            min-height: 100vh;
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+            justify-content: center;
+            /* THE UPDATE: Sets your social-preview as the actual page background */
+            background: url('images/social-preview.png') no-repeat center center fixed;
+            background-size: cover;
         }
         
-        /* Compact Widget Mode */
-        body.widget-mode { padding: 5px; background: transparent; overflow: hidden; }
-        body.widget-mode .header { display: none; }
+        /* We add a "Card" style so the text is readable over the background image */
+        .container { 
+            width: 90%;
+            max-width: 450px; 
+            text-align: center; 
+            background: rgba(252, 250, 242, 0.9); /* Cream with slight transparency */
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid var(--sage-green);
+        }
 
-        .container { width: 100%; max-width: 500px; text-align: center; }
-        
+        /* Keep the widget clean for the FEA Create iFrame */
+        body.widget-mode { 
+            background: transparent; /* No background image when embedded in your site */
+        }
+        body.widget-mode .container {
+            background: transparent;
+            box-shadow: none;
+            border: none;
+            padding: 0;
+        }
+
         .header h2 { color: var(--sage-green); margin-bottom: 5px; }
         .header p { font-style: italic; margin-top: 0; color: var(--dusty-rose); }
 
@@ -52,7 +70,7 @@
         }
 
         .progress-bar {
-            background: linear-gradient(90deg, var(--sage-green), var(--moss-green));
+            background: linear-gradient(90deg, var(--sage-green), #8b964d);
             height: 100%;
             width: 0%; 
             transition: width 2s cubic-bezier(0.1, 0.5, 0.1, 1);
