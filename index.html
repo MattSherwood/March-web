@@ -86,6 +86,39 @@
 
         .stats { margin-top: 15px; font-weight: bold; font-size: 1.4rem; color: var(--text-dark); }
         .update-tag { font-size: 0.8rem; color: #888; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .download-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background-color: var(--sage-green);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            margin: 8px;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .download-btn:hover {
+            background-color: #6a8274;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .download-btn:active {
+            transform: translateY(0);
+        }
+        
+        body.widget-mode .download-section {
+            display: none; /* Hide download buttons in widget mode */
+        }
     </style>
 </head>
 <body>
@@ -104,6 +137,15 @@
             <span id="current">0</span> / <span id="goal">500</span> Members
         </div>
         <div id="date" class="update-tag">Updated: --</div>
+    </div>
+
+    <div class="download-section">
+        <a href="images/desktop-wallpaper.png" download="march-to-500-desktop-wallpaper.png" class="download-btn">
+            📥 Download Desktop Wallpaper
+        </a>
+        <a href="images/mobile-wallpaper.png" download="march-to-500-mobile-wallpaper.png" class="download-btn">
+            📥 Download Mobile Wallpaper
+        </a>
     </div>
 
     <script>
