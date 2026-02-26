@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>March to 500 | Join the Movement</title>
     <link rel="icon" href="https://fav.farm/🚀" />
     
@@ -175,6 +176,9 @@
         }
 
         updateTracker();
+        
+        // Auto-refresh tracker every 30 seconds
+        setInterval(updateTracker, 30000);
     </script>
 </body>
 </html>
