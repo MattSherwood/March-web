@@ -1,0 +1,9 @@
+# Data files - not version controlled
+data.json
+
+# OS and editor files
+.DS_Store
+.vscode/
+*.swp
+*.swo
+node_modules/
