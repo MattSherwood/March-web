@@ -158,6 +158,8 @@
             try {
                 const response = await fetch('data.json?v=' + Date.now());
                 const data = await response.json();
+                console.log('Fetched data:', data);
+                console.log('lastUpdated value:', data.lastUpdated);
                 const percent = Math.min((data.current / data.goal) * 100, 100);
                 
                 setTimeout(() => {
@@ -165,6 +167,7 @@
                     document.getElementById('current').innerText = data.current;
                     document.getElementById('goal').innerText = data.goal;
                     document.getElementById('date').innerText = 'Updated: ' + data.lastUpdated;
+                    console.log('Date element updated to:', document.getElementById('date').innerText);
                 }, 500);
             } catch (e) {
                 console.error("Error loading stats", e);
