@@ -102,26 +102,58 @@ for d in expanded_dates:
 
 max_val = max(expanded_values)
 y_max = ((max_val // 10) + 2) * 10
+zoom_min = 150
+
+daily_changes = [0]
+for i in range(1, len(expanded_values)):
+    daily_changes.append(expanded_values[i] - expanded_values[i - 1])
+
+change_max = max(daily_changes) if daily_changes else 0
+change_y_max = max(5, ((change_max + 4) // 5) * 5)
 
 year_label = expanded_dates[0].year if expanded_dates[0].year == expanded_dates[-1].year else f'{expanded_dates[0].year}-{expanded_dates[-1].year}'
 
 x_axis = ', '.join(f'"{l}"' for l in labels)
 bars = ', '.join(str(v) for v in expanded_values)
+changes = ', '.join(str(v) for v in daily_changes)
 
 content = f'''# Daily Cumulative Member Tally ({year_label})
 
+## 1) Cumulative (Full Scale)
+
 ```mermaid
 xychart-beta
-  title "Daily Cumulative Member Tally ({year_label})"
+    title "Daily Cumulative Member Tally ({year_label}) - Full Scale"
   x-axis [{x_axis}]
   y-axis "Members" 0 --> {y_max}
   bar [{bars}]
+```
+
+## 2) Cumulative (Zoomed)
+
+```mermaid
+xychart-beta
+    title "Daily Cumulative Member Tally ({year_label}) - Zoomed"
+    x-axis [{x_axis}]
+    y-axis "Members" {zoom_min} --> {y_max}
+    bar [{bars}]
+```
+
+## 3) Daily Net Change
+
+```mermaid
+xychart-beta
+    title "Daily Net Member Change ({year_label})"
+    x-axis [{x_axis}]
+    y-axis "New Members" 0 --> {change_y_max}
+    bar [{changes}]
 ```
 
 Data approach:
 - One end-of-day cumulative value per date.
 - Missing calendar dates are carry-forward values from the previous day.
 - Label format uses numeric month.day when the month changes, otherwise day only.
+- Daily net change is the day-over-day difference from the cumulative series.
 '''
 
 with open(output_file, 'w', encoding='utf-8') as f:
