@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+"${repo_root}/scripts/update-tally-chart.sh"
+
+git add docs/daily-cumulative-member-tally-2026.md
+
+echo "Pre-commit: tally chart refreshed and staged."

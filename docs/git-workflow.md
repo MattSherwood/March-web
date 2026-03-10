@@ -1,90 +1,54 @@
-# Git Workflow Strategy - March to 500 Project
+# Git Workflow
 
-## Branch Structure
+## Approved Release Path
 
-### `main` Branch
-- **Purpose:** Production-ready code that is live on march.pithyprint.com
-- **Protection:** Only merge from `development` after thorough testing
-- **Deployment:** Automatically deployed to GitHub Pages
-- **Data Updates:** Can accept quick data.json updates (file is in .gitignore, pushed directly)
-
-### `development` Branch  
-- **Purpose:** Integration branch for new features and improvements
-- **Testing:** Test here before merging to main
-- **Workflow:** Create feature branches from here, merge back when complete
-
-### Feature Branches (Optional)
-- **Naming:** `feature/description` (e.g., `feature/milestones`)
-- **Purpose:** Isolated development of specific features
-- **Lifecycle:** Created from `development`, merged back when complete
-
-## Standard Workflow
-
-1. **Start New Feature:**
-   ```bash
-   git checkout development
-   git pull origin development
-   git checkout -b feature/feature-name
-   ```
-
-2. **Development:**
-   - Make changes and commit regularly
-   - Keep commits focused and descriptive
-   
-3. **Testing:**
-   ```bash
-   git checkout development
-   git merge feature/feature-name
-   # Test thoroughly on development branch
-   ```
-
-4. **Release to Production:**
-   ```bash
-   git checkout main
-   git merge development
-   git push origin main
-   ```
-
-5. **Quick Data Updates (data.json only):**
-   - data.json is in .gitignore (not tracked by git)
-   - Update the file directly on main
-   - No commit or push required
-   - Changes reflect live within 30 seconds via auto-refresh
-
-## Data Management
-
-### data.json - NOT Version Controlled
-
-- **File:** `data.json` (in .gitignore)
-- **Purpose:** Live data source for member counts and milestones
-- **Updates:** Direct file edits, no git commits
-- **Deployment:** Changes reflected immediately on live site
-- **Advantages:** 
-  - Separates code (version controlled) from data (dynamic)
-  - Enables instant data updates without code deployment
-  - Keeps git history clean of data changes
-
-### Example Update Flow
+The tally release flow is automated and must be run via:
 
 ```bash
-# Edit data.json locally
-nano data.json
-
-# Changes live immediately (within 30 seconds)
-# No git commands needed!
+scripts/release-tally.sh <member_count> [last_updated]
 ```
 
-## Current Status
+Examples:
 
-- **main:** Stable production version with auto-refresh and cache control
-- **development:** To be created for feature development
-- **data.json:** Decoupled from git via .gitignore
+```bash
+scripts/release-tally.sh 215
+scripts/release-tally.sh 215 "Mar 10 2026"
+```
 
-## Best Practices
+This is the only approved way to revise the tally, regenerate documentation, commit, and push.
 
-- Always pull latest changes before starting work
-- Test changes on development before merging to main  
-- Keep development and main in sync
-- Use descriptive commit messages
-- Document major changes in this file or project documentation
-- Remember: code commits to git, data updates bypass git
+## What the Release Script Does
+
+`scripts/release-tally.sh` performs all required release steps:
+
+1. Updates `data.json` (`current`, `lastUpdated`)
+2. Regenerates `docs/daily-cumulative-member-tally-2026.md`
+3. Stages both files
+4. Creates a commit with a standard message
+5. Pushes to `origin/main`
+
+## Commit Prerequisite Enforcement
+
+A pre-commit hook auto-refreshes and stages the tally chart before every commit.
+
+- Hook file: `.githooks/pre-commit`
+- Generator: `scripts/update-tally-chart.sh`
+
+Enable hooks once per clone:
+
+```bash
+git config core.hooksPath .githooks
+chmod +x scripts/update-tally-chart.sh scripts/release-tally.sh .githooks/pre-commit
+```
+
+After this setup, every commit automatically includes a refreshed chart.
+
+## Chart Labeling Note
+
+Mermaid `xychart-beta` does not reliably support multiline axis labels in this environment.
+The chart therefore uses compact labels:
+
+- Day numbers for each tick
+- Full month name only when the month changes
+
+This preserves readability while keeping the chart renderer-compatible.
