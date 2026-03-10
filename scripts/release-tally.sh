@@ -42,10 +42,11 @@ with open('data.json', 'w', encoding='utf-8') as f:
 PY
 
 scripts/update-tally-chart.sh
+scripts/export-tally-charts.sh
 
-git add data.json docs/daily-cumulative-member-tally-2026.md
+git add data.json docs/daily-cumulative-member-tally-2026.md exports/charts
 
 git commit -m "Update members count to ${new_count} for ${new_date}"
 git push
 
-echo "Release complete: members=${new_count}, lastUpdated='${new_date}'"
+echo "Release complete: members=${new_count}, lastUpdated='${new_date}', exports updated"

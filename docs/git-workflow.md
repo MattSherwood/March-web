@@ -23,9 +23,15 @@ This is the only approved way to revise the tally, regenerate documentation, com
 
 1. Updates `data.json` (`current`, `lastUpdated`)
 2. Regenerates `docs/daily-cumulative-member-tally-2026.md`
-3. Stages both files
-4. Creates a commit with a standard message
-5. Pushes to `origin/main`
+3. Exports reporting artifacts to `exports/charts` (SVG + PNG)
+4. Stages updated source + chart + SVG exports
+5. Creates a commit with a standard message
+6. Pushes to `origin/main`
+
+Export artifact policy:
+
+- `exports/charts/*.svg` is version controlled.
+- `exports/charts/*.png` is generated for external reporting and ignored by git.
 
 ## Commit Prerequisite Enforcement
 
@@ -33,6 +39,7 @@ A pre-commit hook auto-refreshes and stages the tally chart before every commit.
 
 - Hook file: `.githooks/pre-commit`
 - Generator: `scripts/update-tally-chart.sh`
+- Exporter: `scripts/export-tally-charts.sh` (invoked by tally release script)
 
 Enable hooks once per clone:
 
