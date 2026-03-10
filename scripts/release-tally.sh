@@ -44,7 +44,7 @@ PY
 scripts/update-tally-chart.sh
 scripts/export-tally-charts.sh
 
-git add data.json docs/daily-cumulative-member-tally-2026.md exports/charts
+git add data.json exports/charts
 
 git commit -m "Update members count to ${new_count} for ${new_date}"
 git push

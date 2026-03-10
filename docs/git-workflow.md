@@ -22,7 +22,7 @@ This is the only approved way to revise the tally, regenerate documentation, com
 `scripts/release-tally.sh` performs all required release steps:
 
 1. Updates `data.json` (`current`, `lastUpdated`)
-2. Regenerates `docs/daily-cumulative-member-tally-2026.md`
+2. Regenerates `exports/charts/daily-cumulative-member-tally-2026.md`
 3. Exports reporting artifacts to `exports/charts` (SVG + PNG)
 4. Stages updated source + chart + SVG exports
 5. Creates a commit with a standard message
@@ -32,6 +32,26 @@ Export artifact policy:
 
 - `exports/charts/*.svg` is version controlled.
 - `exports/charts/*.png` is generated for external reporting and ignored by git.
+
+## Export Rendered PDF
+
+To export a PDF that contains rendered Mermaid charts (not raw markdown blocks), run:
+
+```bash
+scripts/export-tally-pdf.sh
+```
+
+Optional custom output path:
+
+```bash
+scripts/export-tally-pdf.sh exports/reports/tally-report.pdf
+```
+
+This script:
+
+1. Regenerates `exports/charts/*.png` from Mermaid blocks
+2. Builds `exports/charts/daily-cumulative-member-tally-2026-rendered.md` by replacing Mermaid blocks with the rendered PNG charts
+3. Uses pandoc to generate a PDF with preserved section headings and notes
 
 ## Commit Prerequisite Enforcement
 

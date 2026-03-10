@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
-output_file="docs/daily-cumulative-member-tally-2026.md"
+output_file="exports/charts/daily-cumulative-member-tally-2026.md"
 
 tmp_history="$(mktemp)"
 trap 'rm -f "$tmp_history"' EXIT

@@ -7,3 +7,5 @@ node_modules/
 
 # Generated chart artifacts
 exports/charts/*.png
+exports/charts/*-rendered.md
+exports/charts/*.pdf
