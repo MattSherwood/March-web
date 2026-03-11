@@ -18,7 +18,7 @@ scripts/update-tally-chart.sh
 if [[ $# -gt 0 ]]; then
   git add "$@"
 else
-  git add docs/daily-cumulative-member-tally-2026.md scripts/update-tally-chart.sh
+  git add exports/charts/daily-cumulative-member-tally-2026.md scripts/update-tally-chart.sh
 fi
 
 git commit -m "$commit_message"
