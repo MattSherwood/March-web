@@ -43,6 +43,7 @@ PY
 
 scripts/update-tally-chart.sh
 scripts/export-tally-charts.sh
+scripts/export-tally-pdf.sh
 
 git add data.json exports/charts
 
