@@ -88,17 +88,20 @@ while cur <= end:
     expanded_values.append(last_val)
     cur += timedelta(days=1)
 
-# xychart-beta does not support multiline tick labels reliably, so keep compact labels.
-# Format: month-change ticks use M.D (for example 2.25, 3.1); other ticks use D only.
+# Mermaid xychart treats repeated categories as the same x-position.
+# Use sparse visible labels and unique invisible placeholders to avoid overlap.
 labels = []
-prev_month = None
-for d in expanded_dates:
-    day = str(d.day)
-    if prev_month != d.month:
-        labels.append(f'{d.month}.{day}')
+for i, d in enumerate(expanded_dates):
+    prev = expanded_dates[i - 1] if i > 0 else None
+    month_changed = prev is None or d.month != prev.month
+    periodic_tick = d.day in (1, 8, 15, 22, 29)
+    last_point = i == (len(expanded_dates) - 1)
+
+    if month_changed or periodic_tick or last_point:
+        labels.append(f'{d.month}.{d.day}')
     else:
-        labels.append(day)
-    prev_month = d.month
+        # Keep category uniqueness without rendering visible text.
+        labels.append('\u200b' * (i + 1))
 
 max_val = max(expanded_values)
 y_max = ((max_val // 10) + 2) * 10
@@ -152,7 +155,7 @@ xychart-beta
 Data approach:
 - One end-of-day cumulative value per date.
 - Missing calendar dates are carry-forward values from the previous day.
-- Label format uses numeric month.day when the month changes, otherwise day only.
+- X-axis shows weekly-style month.day ticks plus month boundaries; hidden placeholders prevent category collisions.
 - Daily net change is the day-over-day difference from the cumulative series.
 '''
 
