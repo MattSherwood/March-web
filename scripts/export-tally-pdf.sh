@@ -21,17 +21,23 @@ fi
 scripts/export-tally-charts.sh
 
 shopt -s nullglob
-png_files=(exports/charts/*.png)
+png_files=(exports/charts/[0-9][0-9]-*.png)
+filtered_png_files=()
+for png_file in "${png_files[@]}"; do
+  if [[ "$png_file" != *-previous.png ]]; then
+    filtered_png_files+=("$png_file")
+  fi
+done
 shopt -u nullglob
 
-if [[ ${#png_files[@]} -eq 0 ]]; then
+if [[ ${#filtered_png_files[@]} -eq 0 ]]; then
   echo "Error: no PNG charts found in exports/charts."
   exit 1
 fi
 
 mkdir -p "$output_dir"
 
-python3 - <<'PY' "$source_md" "$rendered_md" "$image_width" "${png_files[@]}"
+python3 - <<'PY' "$source_md" "$rendered_md" "$image_width" "${filtered_png_files[@]}"
 import re
 import sys
 from pathlib import Path
